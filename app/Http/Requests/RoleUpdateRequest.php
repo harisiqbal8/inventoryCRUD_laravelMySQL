@@ -34,7 +34,7 @@ class RoleUpdateRequest extends FormRequest
     protected function failedValidation (Validator $validator)
     {
         throw new HttpResponseException(
-            redirect()->back()->withErrors($validator)->withInput()
+            redirect()->back()->with('error', $validator->errors()->first())
         );
     }
 }
