@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\spatie\PermissionController;
+use App\Http\Controllers\spatie\RoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +28,11 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+    Route::resource('roles', RoleController::class);
+    Route::resource('permissions', PermissionController::class);
+});
+
+Route::middleware(['auth'])->group(function () {
     
     Route::post('logout', [LogoutController::class, 'logout'])->name('logout');
     
@@ -43,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Category Routes
-    Route::middleware(['auth'])->prefix('categories')->controller(CategoryController::class)->name('category.')->group(function () {
+    Route::prefix('categories')->controller(CategoryController::class)->name('category.')->group(function () {
         
         Route::get('/', 'index')->name('index');
         Route::get('{id}/show', 'show')->name('show');

@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class ProductController extends Controller
 {
@@ -25,8 +26,6 @@ class ProductController extends Controller
     public function store(ProductRequest $request) 
     { 
         try {
-
-            // $image = $request->hasFile('image') ? $request->file()->store('public', 'products') : '';
 
             // upload image
             $imageName = time().'.'.$request->image->extension();
@@ -48,7 +47,6 @@ class ProductController extends Controller
     public function edit($id) 
     {
         $product = Product::findOrFail($id);
-
         return view('products.edit', ['product' => $product, 'categories' => Category::all()]);
     }
 

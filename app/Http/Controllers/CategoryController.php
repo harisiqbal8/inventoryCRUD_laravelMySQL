@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -18,11 +20,11 @@ class CategoryController extends Controller
         return view('categories.create');
     }
 
-    public function store() {
+    public function store(CategoryRequest $request) {
         try {
             Category::create([
-                'name' => request('name'),
-                'description' => request('description')
+                'name' => $request->name,
+                'description' => $request->description
             ]);
 
             return back()->with('success', 'Category created successfully.');
@@ -37,13 +39,13 @@ class CategoryController extends Controller
         return view('categories.edit', ['category' => $category]);
     }
 
-    public function update($id) {
+    public function update(CategoryUpdateRequest $request, $id) {
         try {
             $category = Category::findOrFail($id);
 
             $category->update([
-                'name' => request('name'),
-                'description' => request('description')
+                'name' => $request->name,
+                'description' => $request->description
             ]);
 
             return back()->with('success', 'Category updated successfully.');

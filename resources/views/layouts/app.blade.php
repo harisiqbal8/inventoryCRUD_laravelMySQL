@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    
+
 <!-- A grey horizontal navbar that becomes vertical on small screens -->
 <nav class="navbar navbar-expand-sm bg-dark">
 
@@ -23,6 +23,12 @@
       </li>
       <li class="nav-item">
         <a class="nav-link text-light" href="/categories">Categories</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/permissions">Permissions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/roles">Roles</a>
       </li>
       @endauth
     </ul>
@@ -57,21 +63,21 @@
       </li>
       @endguest
     </ul>
-  
+
   </nav>
-  
+
   @if ($message = Session::get('success'))
-    <div class="alert alert-success mt-3">
+    <div class="alert alert-success pt-4">
         <p>{{ $message }}</p>
     </div>
-      
+
   @endif
 
   @if ($message = Session::get('error'))
-    <div class="alert alert-error mt-3">
+    <div class="alert alert-danger pt-4">
         <p>{{ $message }}</p>
     </div>
-    
+
   @endif
 
   @yield('main')
