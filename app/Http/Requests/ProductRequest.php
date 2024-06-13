@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ProductRequest extends FormRequest
 {
@@ -28,4 +30,12 @@ class ProductRequest extends FormRequest
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
+
+    protected function failedValidation (Validator $validator)
+    {
+        throw new HttpResponseException(
+            redirect()->back()->with('error', $validator->errors()->first())
+        );
+    }
+
 }

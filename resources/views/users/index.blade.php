@@ -2,34 +2,36 @@
 
 @section('main')
     <div class="container">
-        <div class="text-right">
-            <a href="{{ route('roles.create') }}" class="btn btn-dark my-3">Create Role</a>
-        </div>
-        <table class="table">
+        <table class="table mt-3">
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Email</th>
+                    <th>Roles</th>
                     <th>Permissions</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($roles as $role)
+                @foreach ($users as $user)
                     <tr>
                         <td>
-                            <a href="{{ route('roles.show', $role->id) }}" class="text-dark">
-                                {{ $role->name }}
+                            <a href="{{ route('users.show', $user->id) }}" class="text-dark">
+                                {{ $user->name }}
                             </a>
                         </td>
-                        <td>{{ $role->permissions->pluck('name')->implode(', ') }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->getRoleNames()->implode(', ') }}</td>
+                        <td>{{ $user->getPermissionNames()->implode(', ') }}</td>
                         <td>
-                            <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-dark btn-sm">Edit</a>
-                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline;">
+                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-dark btn-sm">Edit</a>
+                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
                         </td>
+
                     </tr>
                 @endforeach
             </tbody>

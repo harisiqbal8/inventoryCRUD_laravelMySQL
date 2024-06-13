@@ -5,11 +5,13 @@
         <div class="row justify-content-center">
             <div class="col-sm-8">
                 <div class="card mt-3 p-3">
-                    <h1>{{ isset($permission) ? 'Edit Permission' : 'Create Permission' }}</h1>
-                    <form action="{{ isset($permission) ? route('permissions.update', $permission->id) : route('permissions.store') }}" method="POST">
+                    <h3>{{ isset($permission) ? 'Edit Permission' : 'Create Permission' }}</h3>
+                    <form
+                        action="{{ isset($permission) ? route('permissions.update', $permission->id) : route('permissions.store') }}"
+                        method="POST">
                         @csrf
-                        @if(isset($permission))
-                        @method('PUT')
+                        @if (isset($permission))
+                            @method('PUT')
                         @endif
                         <div class="form-group">
                             <label for="name">Permission Name</label>

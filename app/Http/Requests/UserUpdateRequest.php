@@ -6,9 +6,8 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
-use Spatie\Permission\Models\Permission;
 
-class PermissionUpdateRequest extends FormRequest
+class UserUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +25,14 @@ class PermissionUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'max:255', Rule::unique('permissions', 'name')->ignore($this->permission->id)],
+            'name' => 'required',
+            'email' => [Rule::unique('users', 'email')->ignore($this->user)],
+            'roles' => 'array',
+            'permissions' => 'array'
         ];
     }
 
-    protected function failedValidation (Validator $validator)
+    protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
             redirect()->back()->with('error', $validator->errors()->first())

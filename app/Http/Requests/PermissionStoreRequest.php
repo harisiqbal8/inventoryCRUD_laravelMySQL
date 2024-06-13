@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class PermissionStoreRequest extends FormRequest
 {
@@ -25,4 +27,11 @@ class PermissionStoreRequest extends FormRequest
             'name' => 'required|unique:permissions|max:255',
         ];
     }
+    protected function failedValidation (Validator $validator)
+    {
+        throw new HttpResponseException(
+            redirect()->back()->with('error', $validator->errors()->first())
+        );
+    }
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\spatie;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PermissionStoreRequest;
+use App\Http\Requests\PermissionUpdateRequest;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 
@@ -31,7 +32,7 @@ class PermissionController extends Controller
         return view('permissions.edit', ['permission' => $permission]);
     }
 
-    public function update(Request $request, Permission $permission)
+    public function update(PermissionUpdateRequest $request, Permission $permission)
     {
         $permission->update(['name' => $request->name]);
 
@@ -42,5 +43,11 @@ class PermissionController extends Controller
     {
         $permission->delete();
         return redirect()->route('permissions.index')->with('success', 'Permission deleted successfully');
+    }
+
+    public function show($id)
+    {
+        $permission = Permission::findOrFail($id);
+        return view('permissions.show', ['permission' => $permission]);
     }
 }

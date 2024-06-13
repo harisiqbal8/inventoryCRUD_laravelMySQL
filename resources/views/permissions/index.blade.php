@@ -13,12 +13,17 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($permissions as $permission)
+                @foreach ($permissions as $permission)
                     <tr>
-                        <td>{{ $permission->name }}</td>
+                        <td>
+                            <a href="{{ route('permissions.show', $permission->id) }}" class="text-dark">
+                                {{ $permission->name }}
+                            </a>
+                        </td>
                         <td>
                             <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-dark btn-sm">Edit</a>
-                            <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST"
+                                style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>

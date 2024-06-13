@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,77 +11,83 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
 
-<!-- A grey horizontal navbar that becomes vertical on small screens -->
-<nav class="navbar navbar-expand-sm bg-dark">
+    <!-- A grey horizontal navbar that becomes vertical on small screens -->
+    <nav class="navbar navbar-expand-sm bg-dark">
 
-    <!-- Links -->
-    <ul class="navbar-nav mr-auto">
-      @auth
-      <li class="nav-item">
-        <a class="nav-link text-light" href="/">Products</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-light" href="/categories">Categories</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-light" href="/permissions">Permissions</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-light" href="/roles">Roles</a>
-      </li>
-      @endauth
-    </ul>
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+            @auth
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/categories">Categories</a>
+                </li>
+            @endauth
+            @role('Super Admin')
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/permissions">Permissions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/roles">Roles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/users">Users</a>
+                </li>
+            @endrole
+        </ul>
 
-    <ul class="navbar-nav ml-auto">
-      @guest
-      <li class="nav-item">
-          <a class="nav-link text-light" href="{{ route('login') }}">{{ __('Login') }}</a>
-      </li>
-      @if (Route::has('register'))
-          <li class="nav-item">
-              <a class="nav-link text-light" href="{{ route('register') }}">{{ __('Register') }}</a>
-          </li>
-      @endif
-      @else
-      <li class="nav-item dropdown">
-          <a id="navbarDropdown" class="nav-link dropdown-toggle text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-              {{ Auth::user()->name }}
-          </a>
+        <ul class="navbar-nav ml-auto">
+            @guest
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{{ route('login') }}">{{ __('Login') }}</a>
+                </li>
+                @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    </li>
+                @endif
+            @else
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-light" href="#" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }}
+                    </a>
 
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{ route('logout') }}"
-                 onclick="event.preventDefault();
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">
-                  {{ __('Logout') }}
-              </a>
+                            {{ __('Logout') }}
+                        </a>
 
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                  @csrf
-              </form>
-          </div>
-      </li>
-      @endguest
-    </ul>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+            @endguest
+        </ul>
 
-  </nav>
+    </nav>
 
-  @if ($message = Session::get('success'))
-    <div class="alert alert-success pt-4">
-        <p>{{ $message }}</p>
-    </div>
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success pt-4">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
 
-  @endif
+    @if ($message = Session::get('error'))
+        <div class="alert alert-danger pt-4">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
 
-  @if ($message = Session::get('error'))
-    <div class="alert alert-danger pt-4">
-        <p>{{ $message }}</p>
-    </div>
-
-  @endif
-
-  @yield('main')
+    @yield('main')
 
 </body>
+
 </html>

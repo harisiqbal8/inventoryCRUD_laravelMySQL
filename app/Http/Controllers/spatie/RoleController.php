@@ -12,26 +12,31 @@ use Illuminate\Validation\Rule;
 
 class RoleController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('roles.index', ['roles' => Role::all()]);
     }
 
-    public function create() {
+    public function create()
+    {
         return view('roles.create', ['permissions' => Permission::all()]);
     }
 
-    public function store(RoleStoreRequest $request) {
+    public function store(RoleStoreRequest $request)
+    {
         $role = Role::create(['name' => $request->name]);
         $role->syncPermissions($request->permissions);
 
         return redirect()->route('roles.index')->with('success', 'Role created successfully');
     }
 
-    public function edit(Role $role) {
+    public function edit(Role $role)
+    {
         return view('roles.edit', ['role' => $role, 'permissions' => Permission::all()]);
     }
 
-    public function update(RoleUpdateRequest $request, Role $role) {
+    public function update(RoleUpdateRequest $request, Role $role)
+    {
         try {
             $role->update(['name' => $request->name]);
             $role->syncPermissions($request->permissions);
@@ -42,8 +47,15 @@ class RoleController extends Controller
         }
     }
 
-    public function destroy(Role $role) {
+    public function destroy(Role $role)
+    {
         $role->delete();
         return redirect()->route('roles.index')->with('success', 'Role deleted successfully');
+    }
+
+    public function show($id)
+    {
+        $role = Role::findOrFail($id);
+        return view('roles.show', ['role' => $role]);
     }
 }
